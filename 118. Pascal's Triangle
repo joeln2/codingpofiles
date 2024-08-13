@@ -1,0 +1,24 @@
+Approach: Row Generation (generateRow): Purpose: To generate a specific row of Pascal's Triangle. Algorithm: Start with the first element of the row, which is always 1. Use the combinatorial formula to compute each subsequent element in the row. current_element = previous_element × ( 𝑟 𝑜 𝑤 − 𝑐 𝑜 𝑙 ) 𝑐 𝑜 𝑙 current_element= col previous_element×(row−col) ​ where row is the index of the row being generated, and col is the column index within that row. Append each computed value to the ansRow vector. Complexity: Generating a single row takes 𝑂 ( row ) O(row) time. Triangle Generation (generate): Purpose: To generate Pascal's Triangle up to a given number of rows (numRows). Algorithm: Initialize an empty vector ans to store the rows of Pascal's Triangle. Iterate from 1 to numRows, generating each row using the generateRow function. Append each generated row to the ans vector. Complexity: Since generating each row takes 𝑂 ( row ) O(row) time and there are numRows rows, the overall time complexity is 𝑂 ( 𝑛 2 ) O(n 2 ), where n is numRows. Complexity Analysis: Time Complexity: Generate Row: For each row i, generating the row takes 𝑂 ( 𝑖 ) O(i) time. Generate Triangle: Summing up the time for generating each row from 1 to numRows gives: 𝑂 ( 1 ) + 𝑂 ( 2 ) + 𝑂 ( 3 ) + … + 𝑂 ( 𝑛 ) = 𝑂 ( 𝑛 × ( 𝑛 + 1 ) 2 ) = 𝑂 ( 𝑛 2 ) O(1)+O(2)+O(3)+…+O(n)=O( 2 n×(n+1) ​ )=O(n 2 ) Therefore, the overall time complexity is 𝑂 ( 𝑛 2 ) O(n 2 ), where n is the number of rows. Space Complexity: Row Storage: Storing a single row requires 𝑂 ( 𝑟 𝑜 𝑤 ) O(row) space. Triangle Storage: Storing the entire Pascal's Triangle up to numRows requires space for all rows. The space complexity for storing the result is: 𝑂 ( 1 ) + 𝑂 ( 2 ) + 𝑂 ( 3 ) + … + 𝑂 ( 𝑛 ) = 𝑂 ( 𝑛 × ( 𝑛 + 1 ) 2 ) = 𝑂 ( 𝑛 2 ) O(1)+O(2)+O(3)+…+O(n)=O( 2 n×(n+1) ​ )=O(n 2 ) Therefore, the overall space complexity is 𝑂 ( 𝑛 2 ) O(n 2 ), where n is the number of rows. This approach efficiently generates Pascal's Triangle up to the specified number of rows and provides a clear and simple method to understand the computation and storage of the triangle.
+
+Program:
+class Solution {
+public:
+    vector<vector<int>> generate(int numRows) {
+        vector<vector<int>> ans;
+        for(int row=1;row<=numRows;row++){
+            ans.push_back(maker(row));
+        }
+        return ans;
+    }
+    vector<int>maker(int n){
+        long long sum=1;
+        vector<int> ans;
+        ans.push_back(1);
+        for(int i=1;i<n;i++){
+            sum=sum * (n-i);
+            sum=sum/i;
+            ans.push_back(sum);
+        }
+        return ans;
+    }
+};
