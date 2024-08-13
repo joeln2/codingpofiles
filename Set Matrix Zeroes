@@ -1,0 +1,52 @@
+Approaches to this question are:
+1. Brute force: using auxiliary memory. Approach is basically traversing thru the entire matrix and then finding where the 0s are. Once found we convert the elements in the rows and columns of 0 to -1. once marking is done, we traverse again in order to convert the -1s to 0s again. TIME COMP: O((N*M){Intial traversal to find 0s} * (N+M){marking all the elements in the row and column with -1. worst case all the numbers in the row and colum are 0s. hence multiply}) +O(N*M){traversing and conversing -1 to 0}. SC=O(I);
+2.  Better: using extra space and reduce time comp. create an array "rows" and "cols" with all 0s. basically when we come across a mat[i][j] whos value is 0, then we mark the rows and cols with 1. we save up on time because we can changing array and not entire matrix. TIME COMP: 2*(O(N*M)){2 because we traverse once to mark the rows and cols and second when we apply the 0s.} SPACE COMP:O(N)+O(M);
+3.  BEST: using the same approach as above but integrating it in the first row and first col. The only problem? we end up taking mat[0][0] twice. so in order to change that we can take a variable "init". so basically same approach with tweaks.
+TIME COMP: 2*O(N*M) we traverse the matrix twice. SPACE COMP: O(1).
+
+optimized code: 
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        bool isFirstColZero = false; // To check if the first column needs to be zeroed
+
+        // Step 1: Mark the first row and column based on zeroes in the matrix
+        for (int i = 0; i < n; i++) {
+            // Check if the first column needs to be zeroed
+            if (matrix[i][0] == 0) {
+                isFirstColZero = true;
+            }
+            for (int j = 1; j < m; j++) { // Start from 1 to avoid marking matrix[0][0]
+                if (matrix[i][j] == 0) {
+                    matrix[i][0] = 0; // Mark the i-th row
+                    matrix[0][j] = 0; // Mark the j-th column
+                }
+            }
+        }
+
+        // Step 2: Use the marks to set zeroes in the matrix
+        for (int i = 1; i < n; i++) {
+            for (int j = 1; j < m; j++) {
+                if (matrix[i][0] == 0 || matrix[0][j] == 0) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+
+        // Step 3: Zero out the first row if necessary
+        if (matrix[0][0] == 0) {
+            for (int j = 0; j < m; j++) {
+                matrix[0][j] = 0;
+            }
+        }
+
+        // Step 4: Zero out the first column if necessary
+        if (isFirstColZero) {
+            for (int i = 0; i < n; i++) {
+                matrix[i][0] = 0;
+            }
+        }
+    }
+};
