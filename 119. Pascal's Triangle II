@@ -1,0 +1,17 @@
+Same as the previous question. its actually easier. 
+
+Program:
+class Solution {
+public:
+    vector<int> getRow(int rowIndex) {
+        vector<int>ans1;
+        ans1.push_back(1);
+        long long  ans=1;
+        for(int col=1;col<=rowIndex;col++){
+            ans=ans*(rowIndex-col+1);
+            ans=ans/(col);
+            ans1.push_back(ans);
+        }
+        return ans1;
+    }
+};
