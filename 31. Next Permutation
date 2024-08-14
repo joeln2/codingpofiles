@@ -1,0 +1,50 @@
+intuition:
+1) from right to left, you need to find the first smaller number. meaning a[i]<a[i+1]
+2) once point that element is found, from all the remaining elements on the right, find the slightly largest number greater than the element but lesser than everyone else
+3) once swapped, sort the numbers on the right.
+
+Approach:
+1)Brute force: keeping an array and storing all possible numbers in that array. then searching for number which is greater. 
+For finding, all possible permutations, it is taking N!xN. N represents the number of elements present in the input array. 
+Also for searching input arrays from all possible permutations will take N!. Therefore, it has a Time complexity of O(N!xN).
+space comp: O(1);
+2)Using next_permutation STL in cpp only. 
+Time Complexity: O(N*N!)
+The next_permutation() function takes O(N) time to find the next permutation and there are N! number of permutations for an array of size N. 
+Auxiliary Space: O(1) No auxiliary space is used.
+3)Optimal: 
+initution.
+
+program:
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) {
+        int n = nums.size();
+        int temp = -1;
+
+        // Step 1: Find the first index temp such that nums[temp] < nums[temp + 1] from the right
+        for (int i = n - 1; i >= 1; i--) {
+            if (nums[i - 1] < nums[i]) {
+                temp = i - 1;
+                break;
+            }
+        }
+
+        // Step 2: If no such temp is found, reverse the entire array
+        if (temp == -1) {
+            reverse(nums.begin(), nums.end());
+        } else {
+            // Step 3: Find the rightmost element greater than nums[temp]
+            for (int i = n - 1; i > temp; i--) {
+                if (nums[i] > nums[temp]) {
+                    swap(nums[i], nums[temp]);
+                    break;
+                }
+            }
+
+            // Step 4: Reverse the elements from temp + 1 to the end
+            reverse(nums.begin() + temp + 1, nums.end());
+        }
+    }
+};
+
